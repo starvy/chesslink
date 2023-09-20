@@ -27,7 +27,7 @@ const GameLink = ({
 					<svg
 						className="ml-2 hover:cursor-pointer"
 						onClick={() => {
-							navigator.clipboard.writeText(gameLink);
+							navigator.clipboard.writeText(`https://${gameLink}`);
 						}}
 						xmlns="http://www.w3.org/2000/svg"
 						width="59"
