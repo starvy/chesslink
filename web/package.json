@@ -1,0 +1,41 @@
+{
+	"name": "chess",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"format": "prettier --write .",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@next/eslint-plugin-next": "^13.4.12",
+		"@radix-ui/react-slider": "^1.1.2",
+		"@types/node": "20.3.3",
+		"@types/react": "18.2.14",
+		"@types/react-dom": "18.2.6",
+		"autoprefixer": "10.4.14",
+		"chess.js": "1.0.0-beta.6",
+		"eslint-config-next": "13.4.8",
+		"eslint-plugin-prettier": "^5.0.0",
+		"ioredis": "^5.3.2",
+		"js-cookie": "^3.0.5",
+		"next": "13.4.8",
+		"postcss": "8.4.24",
+		"prettier": "^3.0.0",
+		"react": "18.2.0",
+		"react-dom": "18.2.0",
+		"react-globe.gl": "^2.24.3",
+		"react-use-websocket": "3.0.0",
+		"tailwindcss": "3.3.2",
+		"typescript": "5.1.6"
+	},
+	"devDependencies": {
+		"@types/js-cookie": "^3.0.3",
+		"@typescript-eslint/eslint-plugin": "^6.2.1",
+		"@typescript-eslint/parser": "^6.2.1",
+		"eslint": "8.46.0",
+		"eslint-plugin-react": "^7.33.1"
+	}
+}
