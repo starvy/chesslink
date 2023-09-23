@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-	font-family: "Inter";
-	src: url("../../public/fonts/Inter-VariableFont_slnt,wght.ttf");
-}
-
 :root {
 	--foreground-rgb: 0, 0, 0;
 	--background-start-rgb: 215, 220, 220;
