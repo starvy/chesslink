@@ -33,8 +33,8 @@ const CreateGameCard = ({
 	}
 
 	return (
-		<div className="w-full h-full flex max-w-[100vh]">
-			<div className="m-auto w-[90%] 2xl:w-[70%] bg-transparent h-[90%] rounded-3xl px-8 py-8 2xl:py-16">
+		<div className="w-full h-full flex xl:max-w-[100vh]">
+			<div className="m-auto w-[90%] bg-transparent h-[90%] rounded-3xl px-8 py-8 2xl:py-16">
 				<GameOptCard title="Time control">
 					<div className="w-[80%] flex flex-col p-4">
 						<div className="flex">

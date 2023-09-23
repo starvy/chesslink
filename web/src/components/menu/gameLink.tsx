@@ -13,7 +13,7 @@ const GameLink = ({
 }) => {
 	const gameLink = `chessl.ink/${link}`;
 	return (
-		<div className="flex flex-col items-center">
+		<div className="flex flex-col items-center w-full">
 			<div className="flex align-middle">
 				<h1
 					style={textGradient(
@@ -44,7 +44,7 @@ const GameLink = ({
 					<></>
 				)}
 			</div>
-			<h2 className="text-2xl text-center text-[#626262] mt-4">
+			<h2 className="text-2xl text-center text-[#626262] mt-4 w-full">
 				Standard | {timeInput} min | {incrementInput} s increment
 			</h2>
 		</div>

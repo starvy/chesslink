@@ -68,7 +68,7 @@ export default function MainMenu({
 
 	return (
 		<main className="flex h-screen justify-between bg-[#080808]">
-			<div className="max-xl:mx-auto max-xl:w-[38%] ml-6 2xl:ml-20">
+			<div className="w-full max-xl:w-full xl:w-[37%] max-xl:mx-auto 2xl:ml-20">
 				<CreateGameCard
 					link={link}
 					inputUpdate={async (inputData) => {
