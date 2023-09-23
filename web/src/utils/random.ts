@@ -1,6 +1,7 @@
 import redis from "@/redis/client";
 import { randomBytes } from "crypto";
 
+const KEYWORDS = ["play", "game"];
 const ALLOWED_CHARS =
 	"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const length = 4;
@@ -20,5 +21,7 @@ const randomUrl = (): string => {
 
 export const randomUniqueUrl = async (): Promise<string> => {
 	const url = randomUrl(); // TODO: if there is high number of taken urls, make the url longer
-	return (await redis.exists(url)) ? randomUniqueUrl() : url;
+	return (await redis.exists(url)) || KEYWORDS.includes(url)
+		? randomUniqueUrl()
+		: url;
 };
