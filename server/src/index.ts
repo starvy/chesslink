@@ -30,6 +30,18 @@ app.ws('/w', {
     },
     open: (ws: WaitClient) => {
         const data = ws.getUserData();
+        if (games.has(data.gameId)) {
+            const game = games.get(data.gameId)!;
+            send(ws,{
+                t: "gamefull",
+                f: game.chess.fen(),
+                d: {
+                    w: game.players[0].username,
+                    b: game.players[1].username,
+                    h: game.history()
+                }
+            });
+        }
         const builder = builders.get(data.gameId) ?? newBuilder(data.gameId, data.session);
         builder.clients.push(ws);
         console.log(builders);
@@ -130,8 +142,8 @@ app.ws('/p', {
             d: matchingPlayer.color
         } as WSMessage));
 
-        const playerWhite = game.players.find(p => p.color === "w");
-        const playerBlack = game.players.find(p => p.color === "b");
+        const playerWhite = game.players[0];
+        const playerBlack = game.players[1];
         console.log(game.id, playerWhite, playerBlack);
 
         game.clients.forEach(
@@ -276,4 +288,8 @@ const exit = (ws: WebSocket<any>, reason: ExitReason) => {
         d: reason
     }));
     ws.close();
+}
+
+const send = (ws: WebSocket<any>, msg: WSMessage) => {
+    ws.send(JSON.stringify(msg));
 }
