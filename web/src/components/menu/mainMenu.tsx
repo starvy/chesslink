@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import useWebSocket from "react-use-websocket";
 import { WSMessage } from "../../model/wsTypes";
 import { UserData } from "../../model/player";
+import useLocalUserData from "@/hooks/useLocalUserData";
 
 const GamesGlobe = dynamic(
 	() => {
@@ -32,6 +33,7 @@ export default function MainMenu({
 	session: string;
 	link: string;
 }) {
+	const [userData, setUserData] = useLocalUserData();
 	Cookies.set("session", session, { expires: 1 });
 
 	const { sendMessage } = useWebSocket(
@@ -77,8 +79,7 @@ export default function MainMenu({
 			<CreateGameCard
 				link={link}
 				inputUpdate={async (inputData) => {
-					localStorage.setItem("userData", JSON.stringify(inputData));
-
+					setUserData(inputData);
 					sendMessage(
 						JSON.stringify({
 							t: "params",
@@ -90,6 +91,7 @@ export default function MainMenu({
 						}),
 					);
 				}}
+				userData={userData}
 			/>
 			<GamesGlobe />
 		</main>

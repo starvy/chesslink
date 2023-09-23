@@ -7,29 +7,24 @@ import { WSMessage } from "../../model/wsTypes";
 import Cookies from "js-cookie";
 import Game from "./game";
 import { GameDispatchContext } from "@/contexts/gameContext";
-import { UserData } from "../../model/player";
 import { pieceMoved } from "../board/boardOverlay";
+import useLocalUserData from "@/hooks/useLocalUserData";
 
 const WSGame = () => {
 	const gameDispatch = useContext(GameDispatchContext);
 
 	const searchParams = useSearchParams();
 
-	const localUserData = localStorage.getItem("userData");
-	const userData: UserData = localUserData
-		? JSON.parse(localUserData)
-		: {
-				username: "anonymous",
-				color: "w",
-				time: 10,
-				increment: 2,
-		  };
+	const [userData] = useLocalUserData();
 	console.log(userData);
 	const { sendMessage } = useWebSocket(
 		`${process.env.NEXT_PUBLIC_WS_URL}/p`,
 		{
 			queryParams: {
-				name: userData.username.length > 0 ? userData.username : "anonymous",
+				name:
+					userData.username.length > 0
+						? userData.username
+						: "anonymous",
 				game: searchParams.get("game")!,
 				session: Cookies.get("session")!,
 			},

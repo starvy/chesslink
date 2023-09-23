@@ -8,19 +8,12 @@ import { UserData } from "../../model/player";
 const CreateGameCard = ({
 	link,
 	inputUpdate,
+	userData,
 }: {
 	link: string;
 	inputUpdate: ({ time, increment, username }: UserData) => void;
+	userData: UserData;
 }) => {
-	const localUserData = localStorage.getItem("userData");
-	const userData: UserData = localUserData
-		? JSON.parse(localUserData)
-		: {
-				name: "anonymous",
-				color: "w",
-				time: 10,
-				increment: 2,
-		  };
 	const [timeInput, setTimeInput] = useState<number>(userData.time ?? 10);
 	const [incrementInput, setIncrementInput] = useState<number>(
 		userData.increment ?? 2,
