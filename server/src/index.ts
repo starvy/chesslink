@@ -1,6 +1,5 @@
 import {HttpRequest, HttpResponse, TemplatedApp, WebSocket} from "uWebSockets.js";
-import {Color as ChessColor} from "chess.js";
-import { Player, WSMessage, TimeControl, Client, WaitClient } from "./types";
+import { Player, WSMessage, Client, WaitClient, ExitReason } from "./types";
 
 import uWS from 'uWebSockets.js';
 import { Game, GameBuilder, Params } from "./game";
@@ -79,8 +78,7 @@ app.ws('/p', {
         
         console.log("upgrading p client", username);
         if (!username || !gameId || !session) {
-            console.log("no username or game id or session");
-            res.close();
+            res.writeStatus("400 Bad Request").end();
             return;
         }
         res.upgrade({
@@ -103,17 +101,10 @@ app.ws('/p', {
         const builder = builders.get(data.gameId);
         console.log(builders);
         if (!builder && !games.has(data.gameId)) {
-            console.log("no builder");
-            ws.close();
+            exit(ws, "NotFound");
             return;
         }
-        /* if (!builder && !games.has(data.gameId)) {
-            console.log("no builder or game");
-            ws.close();
-            return;
-        } */
 
-        // TODO: return game status
         const player: Player = {
             color: data.color,
             session: data.session,
@@ -123,17 +114,16 @@ app.ws('/p', {
             history: []
         };
         // create game if it doesn't exist, otherwise join the game
-        // TODO: simplify this logic
         const game = games.get(data.gameId) ?? newGame(builder!, player);
 
         game.clients.push(ws);
         
         const matchingPlayer = game.players.find(p => p.session === data.session);
         if (!matchingPlayer) {
-            ws.close();
+            exit(ws, "Forbidden");
             return;
         }
-        matchingPlayer.username = data.username; // TODO: separate endpoint for main menu
+        matchingPlayer.username = data.username;
 
         ws.send(JSON.stringify({
             t: "player",
@@ -171,7 +161,7 @@ app.ws('/p', {
         }
 
     },
-    message: (ws: WebSocket<Client>, buf: ArrayBuffer, isBinary: boolean) => {
+    message: (ws: WebSocket<Client>, buf: ArrayBuffer) => {
         try {
             const msg = JSON.parse(Buffer.from(buf).toString()) as WSMessage;
 
@@ -257,11 +247,7 @@ app.ws('/p', {
         if (!game) return;
         game.clients = game.clients.filter(clientWs => clientWs !== ws);
         if (game.clients.length === 0) {
-            setTimeout(() => {
-                if (game.clients.length === 0) {
-                    games.delete(game.id);
-                }
-            }, 10_000);
+            games.delete(game.id);
         }
     }
 }).listen(8080, (listenSocket: any) => {
@@ -273,7 +259,6 @@ app.ws('/p', {
 
 
 const newGame = (builder: GameBuilder, player: Player) => {
-    // const game = Game.startpos(gameId, [], time); // TODO: keep the websocket?
     const game = Game.fromBuilder(builder, player);
     games.set(game.id, game);
     return game;
@@ -283,4 +268,12 @@ const newBuilder = (gameId: string, session: string) => {
     const builder = new GameBuilder(gameId, session);
     builders.set(gameId, builder);
     return builder;
+}
+
+const exit = (ws: WebSocket<any>, reason: ExitReason) => {
+    ws.send(JSON.stringify({
+        t: "exit",
+        d: reason
+    }));
+    ws.close();
 }

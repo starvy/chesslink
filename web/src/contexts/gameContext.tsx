@@ -6,7 +6,7 @@ import {
 	coordsToSquare,
 	fromChess,
 } from "@/model/position";
-import { StatusOutcome, WSMessage } from "@/model/wsTypes";
+import { ExitReason, StatusOutcome, WSMessage } from "@/model/wsTypes";
 import { Chess } from "chess.js";
 import { createContext, useRef, useState } from "react";
 
@@ -38,6 +38,7 @@ export const GameContext = createContext<{
 		outcome: "w" | "b" | "d" | null;
 	};
 	history: string[];
+	exitReason: ExitReason | null;
 	// @ts-ignore
 }>(null);
 
@@ -75,6 +76,7 @@ export const GameProvider = ({
 	});
 	const [playingSide, setPlayingSide] = useState<"w" | "b">("w");
 	const [history, setHistory] = useState<string[]>([]);
+	const [exitReason, setExitReason] = useState<ExitReason | null>(null);
 
 	function dispatch(msg: DispatchMsg): void | string {
 		switch (msg.t) {
@@ -135,6 +137,10 @@ export const GameProvider = ({
 			case "sync":
 				setTime(msg.d);
 				break;
+			case "exit":
+				setExitReason(msg.d);
+				break;
+
 		}
 	}
 
@@ -149,6 +155,7 @@ export const GameProvider = ({
 				status,
 				history,
 				timeControl,
+				exitReason,
 			}}
 		>
 			<GameDispatchContext.Provider value={dispatch}>

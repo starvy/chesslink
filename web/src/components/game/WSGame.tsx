@@ -6,12 +6,13 @@ import { useSearchParams } from "next/navigation";
 import { WSMessage } from "../../model/wsTypes";
 import Cookies from "js-cookie";
 import Game from "./game";
-import { GameDispatchContext } from "@/contexts/gameContext";
+import { GameContext, GameDispatchContext } from "@/contexts/gameContext";
 import { pieceMoved } from "../board/boardOverlay";
 import useLocalUserData from "@/hooks/useLocalUserData";
 
 const WSGame = () => {
 	const gameDispatch = useContext(GameDispatchContext);
+	const gameContext = useContext(GameContext);
 
 	const searchParams = useSearchParams();
 
@@ -38,7 +39,7 @@ const WSGame = () => {
 			},
 			onError: (e) => {
 				console.error(e);
-				window.location.href = "/?error=ws";
+				window.location.href = `/?error=${gameContext.exitReason}`;
 			},
 		},
 	);

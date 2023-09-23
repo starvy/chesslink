@@ -10,6 +10,8 @@ export type StatusOutcome = {
 	outcome: "w" | "b" | "d" | null;
 };
 
+export type ExitReason = "NotFound" | "Forbidden";
+
 export type WSMessage =
 	| { t: "started"; f: string; d: ChessColor }
 	| { t: "move"; d: string }
@@ -40,4 +42,5 @@ export type WSMessage =
 	| { t: "resign"; d: StatusOutcome }
 	| { t: "e"; d: string }
 	| { t: "sync"; d: TimeRemaining }
-	| { t: "ready" };
+	| { t: "ready" }
+	| { t: "exit"; d: ExitReason };
