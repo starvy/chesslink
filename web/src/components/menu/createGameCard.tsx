@@ -53,7 +53,7 @@ const CreateGameCard = ({
 						</div>
 						<div className="flex">
 							<Slider
-								min={1}
+								min={0}
 								max={60}
 								defaultValue={[incrementInput]}
 								onValueChange={(value) =>
