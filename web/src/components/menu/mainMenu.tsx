@@ -68,24 +68,28 @@ export default function MainMenu({
 
 	return (
 		<main className="flex h-screen justify-between bg-[#080808]">
-			<CreateGameCard
-				link={link}
-				inputUpdate={async (inputData) => {
-					setUserData(inputData);
-					sendMessage(
-						JSON.stringify({
-							t: "params",
-							d: {
-								username: inputData.username,
-								color: inputData.color,
-								time: `${inputData.time}|${inputData.increment}`,
-							},
-						}),
-					);
-				}}
-				userData={userData}
-			/>
-			<GamesGlobe />
+			<div className="max-xl:mx-auto max-xl:w-[38%] ml-6 2xl:ml-20">
+				<CreateGameCard
+					link={link}
+					inputUpdate={async (inputData) => {
+						setUserData(inputData);
+						sendMessage(
+							JSON.stringify({
+								t: "params",
+								d: {
+									username: inputData.username,
+									color: inputData.color,
+									time: `${inputData.time}|${inputData.increment}`,
+								},
+							}),
+						);
+					}}
+					userData={userData}
+				/>
+			</div>
+			<div className={"hidden xl:block max-xl:w-[62%]"}>
+				<GamesGlobe />
+			</div>
 		</main>
 	);
 }

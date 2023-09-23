@@ -19,21 +19,19 @@ const GameLink = ({
 					style={textGradient(
 						"linear-gradient(90deg, #DBB9EB 0%, #3E5EED 100%)",
 					)}
-					className="text-6xl text-center font-semibold"
+					className="text-5xl 2xl:text-6xl text-center font-semibold"
 				>
 					{gameLink}
 				</h1>
 				{copyIcon ? (
 					<svg
-						className="ml-2 hover:cursor-pointer"
+						className="ml-2 hover:cursor-pointer w-12 h-12 2xl:w-16 2xl:h-16"
 						onClick={() => {
 							navigator.clipboard.writeText(
 								`https://${gameLink}`,
 							);
 						}}
 						xmlns="http://www.w3.org/2000/svg"
-						width="59"
-						height="57"
 						viewBox="0 0 59 57"
 						fill="none"
 					>
