@@ -8,8 +8,8 @@ async function createSessionAndLink(): Promise<{
 }> {
 	const sessionId = randomUUID();
 	const link = await randomUniqueUrl();
-	await redis.set(sessionId, link, "EX", 600);
-	await redis.set(link, sessionId, "EX", 600);
+	await redis.set(sessionId, link, "EX", 86_400);
+	await redis.set(link, sessionId, "EX", 86_400);
 	return { sessionId, link };
 }
 
