@@ -140,7 +140,6 @@ export const GameProvider = ({
 			case "exit":
 				setExitReason(msg.d);
 				break;
-
 		}
 	}
 

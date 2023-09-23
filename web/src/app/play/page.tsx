@@ -1,9 +1,11 @@
 import { cookies } from "next/headers";
 import JoinGame from "@/components/game/joinGame";
 import { createOrGetSessionAndLink } from "@/redis/repository";
+import { DEFAULT_USER_DATA } from "@/model/player";
 
 export default async function Play() {
 	const sessionValue = cookies().get("session")?.value;
+	const userData = cookies().get("userData")?.value;
 	const { sessionId } = await createOrGetSessionAndLink(sessionValue);
 
 	return (
@@ -14,7 +16,12 @@ export default async function Play() {
 			}}
 		>
 			<div className={"w-[97.5%] h-[95%] m-auto"}>
-				<JoinGame session={sessionId} />
+				<JoinGame
+					userData={
+						userData ? JSON.parse(userData) : DEFAULT_USER_DATA
+					}
+					session={sessionId}
+				/>
 			</div>
 		</main>
 	);

@@ -29,11 +29,13 @@ const GamesGlobe = dynamic(
 export default function MainMenu({
 	session,
 	link,
+	initialUserData,
 }: {
 	session: string;
 	link: string;
+	initialUserData: UserData;
 }) {
-	const [userData, setUserData] = useLocalUserData();
+	const [userData, setUserData] = useLocalUserData(initialUserData);
 	Cookies.set("session", session, { expires: 1 });
 
 	const { sendMessage } = useWebSocket(
@@ -44,23 +46,13 @@ export default function MainMenu({
 				session: session,
 			},
 			onOpen: () => {
-				const localUserData = localStorage.getItem("userData");
-
-				const data: UserData = localUserData
-					? JSON.parse(localUserData)
-					: {
-							username: "",
-							color: "w",
-							time: 10,
-							increment: 2,
-					  };
 				sendMessage(
 					JSON.stringify({
 						t: "params",
 						d: {
-							username: data?.username ?? "",
-							color: data.color,
-							time: `${data.time}|${data.increment}`,
+							username: userData?.username ?? "",
+							color: userData.color,
+							time: `${userData.time}|${userData.increment}`,
 						},
 					}),
 				);

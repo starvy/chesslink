@@ -8,16 +8,13 @@ import Cookies from "js-cookie";
 import Game from "./game";
 import { GameContext, GameDispatchContext } from "@/contexts/gameContext";
 import { pieceMoved } from "../board/boardOverlay";
-import useLocalUserData from "@/hooks/useLocalUserData";
+import { UserData } from "@/model/player";
 
-const WSGame = () => {
+const WSGame = ({ userData }: { userData: UserData }) => {
 	const gameDispatch = useContext(GameDispatchContext);
 	const gameContext = useContext(GameContext);
 
 	const searchParams = useSearchParams();
-
-	const [userData] = useLocalUserData();
-	console.log(userData);
 	const { sendMessage } = useWebSocket(
 		`${process.env.NEXT_PUBLIC_WS_URL}/p`,
 		{

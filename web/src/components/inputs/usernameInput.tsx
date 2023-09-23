@@ -1,26 +1,17 @@
 "use client";
 import { useState } from "react";
-import { UserData } from "../../model/player";
+import useLocalUserData from "@/hooks/useLocalUserData";
 
 const UsernameInput = ({ link }: { link: string }) => {
-	function getUsername(): string {
-		// TODO: React Context for userData
-		if (typeof window === "undefined") return "";
-		const localUserData = localStorage.getItem("userData");
-		if (!localUserData) return "";
-		const userData: UserData = JSON.parse(localUserData);
-		return userData.username;
-	}
+	const [userData, setUserData] = useLocalUserData();
 
-	const [usernameInput, setUsernameInput] = useState(getUsername());
+	const [usernameInput, setUsernameInput] = useState(userData.username);
 
 	function startGame() {
-		localStorage.setItem(
-			"userData",
-			JSON.stringify({
-				username: usernameInput,
-			}),
-		);
+		setUserData({
+			...userData,
+			username: usernameInput,
+		});
 		window.location.href = `/play?game=${link}`;
 	}
 	return (

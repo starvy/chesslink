@@ -1,24 +1,14 @@
-import { UserData } from "@/model/player";
+import { DEFAULT_USER_DATA, UserData } from "@/model/player";
+import Cookies from "js-cookie";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-const DEFAULT_USER_DATA: UserData = {
-	color: "w",
-	username: "anonymous",
-	time: 10,
-	increment: 2,
-};
-
-const useLocalUserData = (): [UserData, Dispatch<SetStateAction<UserData>>] => {
-	const [value, setValue] = useState<UserData>(() => {
-		const userData =
-			typeof window !== "undefined"
-				? localStorage.getItem("userData")
-				: null;
-		return userData ? JSON.parse(userData) : DEFAULT_USER_DATA;
-	});
+const useLocalUserData = (
+	initialValue: UserData = DEFAULT_USER_DATA,
+): [UserData, Dispatch<SetStateAction<UserData>>] => {
+	const [value, setValue] = useState<UserData>(initialValue);
 
 	useEffect(() => {
-		localStorage.setItem("userData", JSON.stringify(value));
+		Cookies.set("userData", JSON.stringify(value));
 	}, [value]);
 
 	return [value, setValue];
