@@ -7,7 +7,7 @@ different locations.
 
 Playing chess with Chessl.ink is straightforward:
 
-1. **Open the Website**: Visit [https://chessl.ink](https://chessl.ink) in your web browser.
+1. **Open the Website**: Run project on your device.
 2. **Share the Link**: Chessl.ink will provide you with a randomly generated link. Copy this link and share it with your friend whom you want to play with.
 3. **Wait for Your Friend**: Your friend can open the shared link, and both of you will be connected to the same chessboard.
 4. **Play Chess!**: Enjoy a game of chess with your friend! Make your moves by clicking and dragging the chess pieces. The game will keep track of the moves, and you can chat with your opponent in real-time.
@@ -28,10 +28,8 @@ This project is still in an early stage of development
 
 ## TODO
 
- - Deploy on [https://chessl.ink](https://chessl.ink)
  - Monorepo
  - Error handling
  - UX improvements
  - GitHub Actions
 
-![image](https://github.com/starvy/chesslink/assets/34771614/906c1901-edc1-4a1e-b6d3-a233c4be86d2)
